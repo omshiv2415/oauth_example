@@ -8,7 +8,10 @@ class OauthTemplate < Sinatra::Base
   CLIENT_SECRET   = 'NYEksooAX9Z7Mmvn7k5X3dZKmufZ7HS2fQoWRFYRjC6cbRGbGdWcwTXsPzMXfqtZ'
   REDIRECT_URI    = 'http://localhost:5000/oauth2response'
 
+  # Use sessions to store user data
   enable :sessions
+
+  # Allow the app to be embedded in an iframe
   set :protection, except: :frame_options
 
   # In a real application, these would be persistent. We'd also need to
