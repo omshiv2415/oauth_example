@@ -1,8 +1,15 @@
+require 'json'
+require 'net/http'
+
 class OauthTemplate < Sinatra::Base
 
   # Configure the application here
+
+  # LTI settings
   CONSUMER_KEY    = 'key'
   CONSUMER_SECRET = 'secret'
+
+  # OAuth settings
   CANVAS_URL      = 'http://canvas.dev'
   CLIENT_ID       = '1'
   CLIENT_SECRET   = 'NYEksooAX9Z7Mmvn7k5X3dZKmufZ7HS2fQoWRFYRjC6cbRGbGdWcwTXsPzMXfqtZ'
@@ -31,8 +38,8 @@ class OauthTemplate < Sinatra::Base
       !@@nonce_cache.include?(nonce) && @@nonce_cache << nonce
     },
     time_limit: 3_600, # one hour
-    success: ->(params, session) {
-      session[:user] = params['user_id']
+    success: ->(params, req, res) {
+      req.env['rack.session'][:user] = params['user_id']
     },
     extensions: {
       'canvas.instructure.com' => {
